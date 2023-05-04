@@ -38,10 +38,11 @@ canvas.addEventListener("drop", function (event) {
 });
 
 viewer.model.emoteController.playEmotion("happy");
-
 await new Promise(r => setTimeout(r, 1000));
-
 viewer.model.emoteController.playEmotion("neutral");
 
 // Valid expressions: neutral, happy, angry, sad, relaxed
+
+let arrayBuffer = await fetch("https://example.com/foo.mp3").then(r => r.arrayBuffer());
+await viewer.model.speak(arrayBuffer, {expression:"happy"});
 ```
