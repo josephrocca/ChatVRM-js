@@ -2,7 +2,7 @@ let [
   Viewer,
   prompt2,
 ] = await Promise.all([
-  import("https://cdn.jsdelivr.net/gh/josephrocca/ChatVRM-js@v0.0.23/features/vrmViewer/viewer.js").then(m => m.Viewer),
+  import("https://cdn.jsdelivr.net/gh/josephrocca/ChatVRM-js@v0.0.24/features/vrmViewer/viewer.js").then(m => m.Viewer),
   import("https://cdn.jsdelivr.net/gh/josephrocca/prompt2@v0.0.8/mod.js").then(m => m.default),
 ]);
 
@@ -171,9 +171,9 @@ async function textToSpeechAndActions(text) {
           }),
         }).then(res => res.arrayBuffer()); 
       } else {
-        let numWords = chunk.text.split(" ").length;
+        let numWords = chunk.text.split(" ").length / 2;
         let filename = roundToNearestOfSet(numWords, [3, 6, 12, 24]) + ".mp3";
-        bufferPromise = fetch(`https://cdn.jsdelivr.net/gh/josephrocca/ChatVRM-js@v0.0.22/OpenCharacters/dummy-audio/${filename}`);
+        bufferPromise = fetch(`https://cdn.jsdelivr.net/gh/josephrocca/ChatVRM-js@v0.0.22/OpenCharacters/dummy-audio/${filename}`).then(r => r.arrayBuffer());
       }
       speechActionChunks.push({bufferPromise, expression:lastExpression, text:chunk.text, volume});
     }
