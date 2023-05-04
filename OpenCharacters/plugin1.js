@@ -2,7 +2,7 @@ let [
   Viewer,
   prompt2,
 ] = await Promise.all([
-  import("https://cdn.jsdelivr.net/gh/josephrocca/ChatVRM-js@v0.0.18/features/vrmViewer/viewer.js").then(m => m.Viewer),
+  import("https://cdn.jsdelivr.net/gh/josephrocca/ChatVRM-js@v0.0.23/features/vrmViewer/viewer.js").then(m => m.Viewer),
   import("https://cdn.jsdelivr.net/gh/josephrocca/prompt2@v0.0.8/mod.js").then(m => m.default),
 ]);
 
@@ -106,9 +106,9 @@ if(oc.character.customData.voiceAudioEnabled === undefined) {
   await pluginSettings();
 }
 
-if(oc.character.customData.voiceAudioEnabled === "yes" && !navigator.userActivation.hasBeenActive) {
+if(!navigator.userActivation.hasBeenActive) {
   let result = await prompt2({
-    blah: {type:"none", html:"Click start to initialize voice audio."},
+    blah: {type:"none", html:"Click start to initialize character (this is needed for technical reasons)."},
   }, {cancelButtonText:null, submitButtonText:"start"});
 }
 
@@ -142,7 +142,8 @@ function parseSpeechActionText(text) {
 
 async function textToSpeechAndActions(text) {
   let chunks = parseSpeechActionText(text);
-
+  
+  let volume = oc.character.customData.voiceAudioEnabled === "yes" ? 1 : 0;
   let lastExpression = "neutral";
   let speechActionChunks = [];
   for(let chunk of chunks) {
@@ -151,34 +152,46 @@ async function textToSpeechAndActions(text) {
       continue;
     }
     if(chunk.text) {
-      let bufferPromise = fetch(`https://api.elevenlabs.io/v1/text-to-speech/${oc.character.customData.elevenLabsVoiceId}?optimize_streaming_latency=0`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "accept": "audio/mpeg",
-          "xi-api-key": oc.character.customData.elevenLabsApiKey,
-        },
-        body: JSON.stringify({
-          text: chunk.text,
-          model_id: "eleven_monolingual_v1",
-          voice_settings: {
-            "stability": 0,
-            "similarity_boost": 0,
+      let bufferPromise;
+      if(oc.character.customData.voiceAudioEnabled === "yes") {
+        bufferPromise = fetch(`https://api.elevenlabs.io/v1/text-to-speech/${oc.character.customData.elevenLabsVoiceId}?optimize_streaming_latency=0`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "accept": "audio/mpeg",
+            "xi-api-key": oc.character.customData.elevenLabsApiKey,
           },
-        }),
-      }).then(res => res.arrayBuffer()); 
-      speechActionChunks.push({bufferPromise, expression:lastExpression, text:chunk.text});
+          body: JSON.stringify({
+            text: chunk.text,
+            model_id: "eleven_monolingual_v1",
+            voice_settings: {
+              "stability": 0,
+              "similarity_boost": 0,
+            },
+          }),
+        }).then(res => res.arrayBuffer()); 
+      } else {
+        let numWords = chunk.text.split(" ").length;
+        let filename = roundToNearestOfSet(numWords, [3, 6, 12, 24]) + ".mp3";
+        bufferPromise = fetch(`https://cdn.jsdelivr.net/gh/josephrocca/ChatVRM-js@v0.0.22/OpenCharacters/dummy-audio/${filename}`);
+      }
+      speechActionChunks.push({bufferPromise, expression:lastExpression, text:chunk.text, volume});
     }
   }
   let buffers = await Promise.all(speechActionChunks.map(c => c.bufferPromise));
   for(let i = 0; i < speechActionChunks.length; i++) {
     let chunk = speechActionChunks[i];
     let buffer = buffers[i];
-    await viewer.model.speak(buffer, {expression:chunk.expression});
+    await viewer.model.speak(buffer, {expression:chunk.expression, volume:chunk.volume});
   }
 
   // viewer.model.emoteController.playEmotion("neutral");
 }
+
+function roundToNearestOfSet(num, options) {
+  return options.reduce((a, b) => Math.abs(num - a) < Math.abs(num - b) ? a : b);
+}
+
 
 oc.messageRenderingPipeline.push(function({message, reader}) {
   if(reader === "user") message.content = message.content.replace(/(\[@(?:expression|action)=[^\]]+\])/g, "");
