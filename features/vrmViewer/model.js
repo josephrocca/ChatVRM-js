@@ -67,12 +67,12 @@ export class Model {
   /**
    * 音声を再生し、リップシンクを行う
    */
-  async speak(buffer, screenplay) {
+  async speak(buffer, screenplay, opts={}) {
     this.emoteController?.playEmotion(screenplay.expression);
     await new Promise((resolve) => {
       this._lipSync?.playFromArrayBuffer(buffer, () => {
         resolve(true);
-      });
+      }, opts);
     });
   }
 
