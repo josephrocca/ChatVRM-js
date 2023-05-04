@@ -135,7 +135,7 @@ export class Viewer {
   }
 
   update() {
-    requestAnimationFrame(this.update);
+    requestAnimationFrame(this.update.bind(this));
     const delta = this._clock.getDelta();
     // update vrm components
     if (this.model) {
