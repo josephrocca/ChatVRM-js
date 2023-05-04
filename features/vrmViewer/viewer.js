@@ -1,5 +1,5 @@
 import * as THREE from "https://unpkg.com/three@0.149.0/build/three.module.js";
-import { OrbitControls } from "https://unpkg.com/three@0.149.0/examples/jsm/controls/OrbitControls.js";
+import { OrbitControls } from "../../OrbitControls.js";
 import { loadVRMAnimation } from "../../lib/VRMAnimation/loadVRMAnimation.js";
 import { Model } from "./model.js";
 
