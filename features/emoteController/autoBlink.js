@@ -1,4 +1,4 @@
-import { VRMExpressionManager } from "https://cdn.jsdelivr.net/npm/@pixiv/three-vrm@1.0.9/+esm";
+import { VRMExpressionManager } from "https://unpkg.com/@pixiv/three-vrm@1.0.9";
 import { BLINK_CLOSE_MAX, BLINK_OPEN_MAX } from "./emoteConstants.js";
 
 /**
