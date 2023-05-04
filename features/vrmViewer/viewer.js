@@ -24,14 +24,14 @@ export class Viewer {
     this._clock.start();
   }
 
-  loadVrm(url) {
+  async loadVrm(url) {
     if (this.model?.vrm) {
       this.unloadVRM();
     }
 
     // gltf and vrm
     this.model = new Model(this._camera || new THREE.Object3D());
-    this.model.loadVRM(url).then(async () => {
+    await this.model.loadVRM(url).then(async () => {
       if (!this.model?.vrm) return;
 
       // Disable frustum culling
@@ -41,7 +41,7 @@ export class Viewer {
 
       this._scene.add(this.model.vrm.scene);
 
-      const vrma = await loadVRMAnimation("https://raw.githubusercontent.com/pixiv/ChatVRM/main/public/idle_loop.vrma");
+      const vrma = await loadVRMAnimation("https://raw.githubusercontent.com/josephrocca/ChatVRM-js/main/idle_loop.vrma");
       if (vrma) this.model.loadAnimation(vrma);
 
       // HACK: アニメーションの原点がずれているので再生後にカメラ位置を調整する
