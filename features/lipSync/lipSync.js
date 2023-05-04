@@ -29,14 +29,23 @@ export class LipSync {
     };
   }
 
-  async playFromArrayBuffer(buffer, onEnded) {
+  async playFromArrayBuffer(buffer, onEnded, {volume=1}={}) {
     const audioBuffer = await this.audio.decodeAudioData(buffer);
 
     const bufferSource = this.audio.createBufferSource();
     bufferSource.buffer = audioBuffer;
 
-    bufferSource.connect(this.audio.destination);
+    // Create a gain node to control the volume
+    const gainNode = this.audio.createGain();
+    gainNode.gain.value = volume;
+
+    // Connect the bufferSource to the gainNode and the gainNode to the destination
+    bufferSource.connect(gainNode);
+    gainNode.connect(this.audio.destination);
+
+    // Connect the bufferSource directly to the analyser to get raw audio data
     bufferSource.connect(this.analyser);
+
     bufferSource.start();
     if (onEnded) {
       bufferSource.addEventListener("ended", onEnded);
