@@ -2,7 +2,7 @@
 A JS conversion/adaptation of parts of the [ChatVRM](https://github.com/pixiv/ChatVRM) (TypeScript) code for use in [OpenCharacters](https://github.com/josephrocca/OpenCharacters). I've extracted just the VRM "speaking character" viewer from the web app.
 
 ```js
-let viewer = await import("https://cdn.jsdelivr.net/gh/josephrocca/ChatVRM-js@v0.0.18/features/vrmViewer/viewer.js").then(m => m.Viewer);
+let viewer = await import("https://cdn.jsdelivr.net/gh/josephrocca/ChatVRM-js@v0.0.19/features/vrmViewer/viewer.js").then(m => m.Viewer);
 
 const canvas = document.createElement("canvas");
 canvas.height = window.innerHeight;
@@ -10,7 +10,7 @@ canvas.width = window.innerWidth;
 document.body.appendChild(canvas);
 
 viewer.setup(canvas);
-await viewer.loadVrm("https://cdn.jsdelivr.net/gh/josephrocca/ChatVRM-js@v0.0.18/AvatarSample_B.vrm");
+await viewer.loadVrm("https://cdn.jsdelivr.net/gh/josephrocca/ChatVRM-js@v0.0.19/AvatarSample_B.vrm");
 
 canvas.addEventListener("dragover", function (event) {
   event.preventDefault();
