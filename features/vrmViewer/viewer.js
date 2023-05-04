@@ -3,7 +3,7 @@ import { OrbitControls } from "https://cdn.jsdelivr.net/npm/three@0.149.0/exampl
 import { loadVRMAnimation } from "../../lib/VRMAnimation/loadVRMAnimation.js";
 import { Model } from "./model.js";
 
-class Viewer {
+export class Viewer {
   constructor() {
     this.isReady = false;
 
