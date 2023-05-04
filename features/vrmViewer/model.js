@@ -1,6 +1,6 @@
 import * as THREE from "https://unpkg.com/three@0.149.0/build/three.module.js";
 import { VRM, VRMLoaderPlugin, VRMUtils } from "https://unpkg.com/@pixiv/three-vrm@1.0.9";
-import { GLTFLoader } from "https://unpkg.com/three@0.149.0/examples/jsm/loaders/GLTFLoader.js";
+import { GLTFLoader } from "../../GLTFLoader/GLTFLoader.js";
 import { VRMLookAtSmootherLoaderPlugin } from "../../lib/VRMLookAtSmootherLoaderPlugin/VRMLookAtSmootherLoaderPlugin.js";
 import { LipSync } from "../lipSync/lipSync.js";
 import { EmoteController } from "../emoteController/emoteController.js";
