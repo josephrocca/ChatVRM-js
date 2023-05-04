@@ -2,7 +2,7 @@ let [
   Viewer,
   prompt2,
 ] = await Promise.all([
-  import("https://cdn.jsdelivr.net/gh/josephrocca/ChatVRM-js@v0.0.24/features/vrmViewer/viewer.js").then(m => m.Viewer),
+  import("https://cdn.jsdelivr.net/gh/josephrocca/ChatVRM-js@v0.0.25/features/vrmViewer/viewer.js").then(m => m.Viewer),
   import("https://cdn.jsdelivr.net/gh/josephrocca/prompt2@v0.0.8/mod.js").then(m => m.default),
 ]);
 
@@ -27,6 +27,7 @@ await new Promise(r => {
 const canvas = document.createElement("canvas");
 canvas.height = window.innerHeight;
 canvas.width = window.innerWidth;
+canvas.style.cssText = "width:100vw; height:100vh; display:block;";
 document.body.appendChild(canvas);
 
 let defaultVrmUrl = "https://raw.githubusercontent.com/josephrocca/ChatVRM-js/main/avatars/AvatarSample_B.vrm";
@@ -86,7 +87,7 @@ settingsButton.style.cssText = `
   right: 0.5rem;
   z-index: 100;
 `;
-settingsButton.textContent = "Settings";
+settingsButton.textContent = "⚙️ settings";
 settingsButton.onclick = pluginSettings;
 document.body.appendChild(settingsButton);
 
