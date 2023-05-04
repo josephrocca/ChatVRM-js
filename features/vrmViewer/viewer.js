@@ -145,5 +145,5 @@ export class Viewer {
     if (this._renderer && this._camera) {
       this._renderer.render(this._scene, this._camera);
     }
-  };
+  }
 }
