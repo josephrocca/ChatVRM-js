@@ -1,4 +1,4 @@
-import * as THREE from "three";
+import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.149.0/+esm";
 import { OrbitControls } from "https://cdn.jsdelivr.net/npm/three@0.149.0/examples/jsm/controls/OrbitControls.js";
 import { loadVRMAnimation } from "../../lib/VRMAnimation/loadVRMAnimation.js";
 import { Model } from "./model.js";
