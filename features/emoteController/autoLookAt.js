@@ -1,4 +1,4 @@
-import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.149.0/+esm";
+import * as THREE from "three";
 
 /**
  * 目線を制御するクラス
