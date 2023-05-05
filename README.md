@@ -26,9 +26,14 @@ viewer.model.emoteController.playEmotion("happy"); // Valid expressions: neutral
 // Play animation:
 await viewer.model.loadAnimation("https://cdn.jsdelivr.net/gh/josephrocca/ChatVRM-js@v0.0.28/OpenCharacters/animations/silly_dancing.fbx");
 
+// Wait for user to interact with the page before trying to play audio
+if(!navigator.userActivation?.hasBeenActive) {
+  await new Promise(resolve => window.addEventListener("click", resolve, {once:true}));
+}
+
 // Speak:
 let arrayBuffer = await fetch("https://cdn.jsdelivr.net/gh/josephrocca/ChatVRM-js@v0.0.22/OpenCharacters/dummy-audio/12.mp3").then(r => r.arrayBuffer());
-await viewer.model.speak(arrayBuffer, {expression:"happy"});
+await viewer.model.speak(arrayBuffer, {expression:"happy", volume:0}); // here i set volume to zero because this is just dummy audio - but you can e.g. use elevenlabs, or whatever, of course
 ```
 
 Example of loading a new VRM file when dragged-and-dropped on the page:
