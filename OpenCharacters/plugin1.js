@@ -2,7 +2,7 @@ let [
   Viewer,
   prompt2,
 ] = await Promise.all([
-  import("https://cdn.jsdelivr.net/gh/josephrocca/ChatVRM-js@v0.0.25/features/vrmViewer/viewer.js").then(m => m.Viewer),
+  import("https://cdn.jsdelivr.net/gh/josephrocca/ChatVRM-js@v0.0.27/features/vrmViewer/viewer.js").then(m => m.Viewer),
   import("https://cdn.jsdelivr.net/gh/josephrocca/prompt2@v0.0.8/mod.js").then(m => m.default),
 ]);
 
