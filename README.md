@@ -23,7 +23,7 @@ await viewer.loadVrm("https://raw.githubusercontent.com/josephrocca/ChatVRM-js/m
 // Change emotion / facial expression:
 viewer.model.emoteController.playEmotion("happy"); // Valid expressions: neutral, happy, angry, sad, relaxed
 
-// Play animation:
+// Play animation (download FBX animations from Mixamo.com):
 await viewer.model.loadAnimation("https://cdn.jsdelivr.net/gh/josephrocca/ChatVRM-js@v0.0.28/OpenCharacters/animations/silly_dancing.fbx");
 
 // Wait for user to interact with the page before trying to play audio
