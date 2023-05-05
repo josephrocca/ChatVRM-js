@@ -29,9 +29,10 @@ await viewer.model.loadAnimation("https://cdn.jsdelivr.net/gh/josephrocca/ChatVR
 // Speak:
 let arrayBuffer = await fetch("https://cdn.jsdelivr.net/gh/josephrocca/ChatVRM-js@v0.0.22/OpenCharacters/dummy-audio/12.mp3").then(r => r.arrayBuffer());
 await viewer.model.speak(arrayBuffer, {expression:"happy"});
+```
 
-
-// Example of loading a new VRM file when drag-and-dropped:
+Example of loading a new VRM file when dragged-and-dropped on the page:
+```js
 canvas.addEventListener("dragover", function (event) {
   event.preventDefault();
 });
